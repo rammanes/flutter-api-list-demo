@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'responsive_extensions.dart';
+import 'package:vsi_assessment/core/layout/responsive_extensions.dart';
 
 /// Use as the outer wrapper for screen body content.
 class AppPageFrame extends StatelessWidget {

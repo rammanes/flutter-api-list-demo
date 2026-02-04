@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'app_breakpoints.dart';
+import 'package:vsi_assessment/core/layout/app_breakpoints.dart';
 
 /// Responsive helpers on [BuildContext] using [MediaQuery].
 /// Use for layout decisions (e.g. single column vs side‑by‑side).

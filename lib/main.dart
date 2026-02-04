@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'router/app_router.dart';
-import 'styles/app_theme.dart';
+import 'package:vsi_assessment/router/app_router.dart';
+import 'package:vsi_assessment/styles/app_theme.dart';
 
 void main() {
   runApp(const VsiAssessment());

@@ -14,4 +14,6 @@ class AppColors {
   static const Color error = Color(0xFFB00020);
   static const Color scaffoldBackground = Color(0xFFFFFEF8);
   static const Color surfaceLight = Color(0xFFCAF4FF);
+  /// Very light grey for cards/tiles (e.g. post list items).
+  static const Color cardBackground = Color(0xFFF5F5F5);
 }

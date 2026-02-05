@@ -19,7 +19,7 @@ class AppPageFrame extends StatelessWidget {
         EdgeInsets.symmetric(
           horizontal: context.whenBreakpoint<double>(
             compact: 16,
-            medium: 24,
+            medium: 20,
             expanded: 32,
           ),
         );

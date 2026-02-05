@@ -10,15 +10,19 @@ class BooksCubit extends Cubit<BooksState> {
 
   final BooksRepository _repository;
 
+  /// Open Library search returns 422 for very short queries; require at least 3 characters.
+  static const int _minSearchLength = 3;
+
   Future<void> searchBooks(String query) async {
-    if (query.trim().isEmpty) {
+    final trimmed = query.trim();
+    if (trimmed.isEmpty || trimmed.length < _minSearchLength) {
       networkErrorNotifier.value = false;
       emit(const BooksLoaded([]));
       return;
     }
     emit(const BooksLoading());
     try {
-      final books = await _repository.searchBooks(query.trim());
+      final books = await _repository.searchBooks(trimmed);
       networkErrorNotifier.value = false;
       emit(BooksLoaded(books));
     } catch (e) {

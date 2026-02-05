@@ -8,12 +8,14 @@ class CommonSearchField extends StatelessWidget {
     this.onChanged,
     this.onSubmitted,
     this.controller,
+    this.focusNode,
   });
 
   final String hint;
   final ValueChanged<String>? onChanged;
   final ValueChanged<String>? onSubmitted;
   final TextEditingController? controller;
+  final FocusNode? focusNode;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +26,7 @@ class CommonSearchField extends StatelessWidget {
       height: 44,
       child: TextField(
         controller: controller,
+        focusNode: focusNode,
         onChanged: onChanged,
         onSubmitted: onSubmitted,
         style: theme.textTheme.bodyMedium,

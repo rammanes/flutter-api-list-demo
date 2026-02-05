@@ -16,4 +16,6 @@ class AppColors {
   static const Color surfaceLight = Color(0xFFCAF4FF);
   /// Very light grey for cards/tiles (e.g. post list items).
   static const Color cardBackground = Color(0xFFF5F5F5);
+  /// Warm cream for icons (e.g. post tile).
+  static const Color cream = Color(0xFFB8A88A);
 }

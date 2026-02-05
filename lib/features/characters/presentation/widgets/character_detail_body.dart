@@ -36,11 +36,16 @@ class CharacterDetailBody extends StatelessWidget {
             child: Stack(
               fit: StackFit.expand,
               children: [
-                CachedNetworkImage(
-                  imageUrl: character.image,
-                  fit: BoxFit.cover,
-                  placeholder: (_, __) => _placeholderBox(context),
-                  errorWidget: (_, __, ___) => _placeholderBox(context),
+                ClipRRect(
+                  borderRadius: const BorderRadius.vertical(
+                    bottom: Radius.circular(24),
+                  ),
+                  child: CachedNetworkImage(
+                    imageUrl: character.image,
+                    fit: BoxFit.cover,
+                    placeholder: (_, __) => _placeholderBox(context),
+                    errorWidget: (_, __, ___) => _placeholderBox(context),
+                  ),
                 ),
                 Positioned(
                   top: topPadding,

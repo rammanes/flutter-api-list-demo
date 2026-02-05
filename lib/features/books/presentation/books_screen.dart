@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:vsi_assessment/core/widgets/widgets.dart';
 
+import '../data/services/book_history_service.dart';
 import '../domain/entities/book.dart';
 import 'cubit/books_cubit.dart';
 import 'cubit/books_state.dart';
@@ -23,8 +24,25 @@ class BooksScreen extends StatefulWidget {
 class _BooksScreenState extends State<BooksScreen> {
   final TextEditingController _searchController = TextEditingController();
   final FocusNode _searchFocusNode = FocusNode();
+  final BookHistoryService _historyService = BookHistoryService();
   Timer? _debounceTimer;
+  List<Book> _history = [];
   static const _debounceDuration = Duration(milliseconds: 400);
+
+  @override
+  void initState() {
+    super.initState();
+    _loadHistory();
+  }
+
+  Future<void> _loadHistory() async {
+    try {
+      final list = await _historyService.getBooks();
+      if (mounted) setState(() => _history = list);
+    } catch (_) {
+      if (mounted) setState(() => _history = []);
+    }
+  }
 
   @override
   void dispose() {
@@ -46,9 +64,24 @@ class _BooksScreenState extends State<BooksScreen> {
     });
   }
 
-  void _onSuggestionTap(Book book) {
+  Future<void> _openBook(Book book) async {
+    try {
+      await _historyService.addBook(book);
+    } catch (_) {
+      // SharedPreferences can fail (e.g. hot restart, channel not ready); still navigate.
+    }
+    if (!mounted) return;
     context.read<SelectedBookCubit>().select(book);
-    context.push('/books/book/${Uri.encodeComponent(book.key)}');
+    await context.push('/books/book/${Uri.encodeComponent(book.key)}');
+    if (mounted) {
+      try {
+        await _loadHistory();
+      } catch (_) {}
+    }
+  }
+
+  void _onSuggestionTap(Book book) {
+    _openBook(book);
     _searchFocusNode.unfocus();
     _searchController.clear();
     context.read<BooksCubit>().clear();
@@ -199,8 +232,35 @@ class _BooksScreenState extends State<BooksScreen> {
             child: BlocBuilder<BooksCubit, BooksState>(
               builder: (context, state) {
                 if (state is BooksInitial) {
-                  return const Center(
-                    child: Text('Enter a search term above'),
+                  if (_history.isEmpty) {
+                    return const Center(
+                      child: Text('Enter a search term above'),
+                    );
+                  }
+                  return ListView(
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 4, bottom: 8),
+                        child: Text(
+                          'Recent',
+                          style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
+                          ),
+                        ),
+                      ),
+                      ...List.generate(
+                        _history.length,
+                        (index) => Padding(
+                          padding: const EdgeInsets.only(bottom: 16),
+                          child: BookCard(
+                            book: _history[index],
+                            onTap: () => _openBook(_history[index]),
+                          ),
+                        ),
+                      ),
+                    ],
                   );
                 }
                 if (state is BooksLoading && !showDropdown) {
@@ -219,12 +279,7 @@ class _BooksScreenState extends State<BooksScreen> {
                       final book = books[index];
                       return BookCard(
                         book: book,
-                        onTap: () {
-                          context.read<SelectedBookCubit>().select(book);
-                          context.push(
-                            '/books/book/${Uri.encodeComponent(book.key)}',
-                          );
-                        },
+                        onTap: () => _openBook(book),
                       );
                     },
                   );

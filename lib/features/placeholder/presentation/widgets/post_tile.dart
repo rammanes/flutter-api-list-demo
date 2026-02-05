@@ -38,8 +38,7 @@ class PostTile extends StatelessWidget {
                 child: Icon(
                   Iconsax.document_text,
                   size: 20,
-                  color:
-                      theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                  color: AppColors.cream,
                 ),
               ),
               const SizedBox(width: 12),
@@ -49,7 +48,7 @@ class PostTile extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      post.title.capitalizeFirst(),
+                      post.title.toTitleCase(),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: theme.textTheme.bodyMedium?.copyWith(

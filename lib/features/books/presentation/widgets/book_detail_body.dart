@@ -35,14 +35,19 @@ class BookDetailBody extends StatelessWidget {
             child: Stack(
               fit: StackFit.expand,
               children: [
-                hasCover
-                    ? CachedNetworkImage(
-                        imageUrl: coverUrl(book.coverId!),
-                        fit: BoxFit.cover,
-                        placeholder: (_, __) => _placeholderBox(context),
-                        errorWidget: (_, __, ___) => _placeholderBox(context),
-                      )
-                    : _placeholderBox(context),
+                ClipRRect(
+                  borderRadius: const BorderRadius.vertical(
+                    bottom: Radius.circular(24),
+                  ),
+                  child: hasCover
+                      ? CachedNetworkImage(
+                          imageUrl: coverUrl(book.coverId!),
+                          fit: BoxFit.cover,
+                          placeholder: (_, __) => _placeholderBox(context),
+                          errorWidget: (_, __, ___) => _placeholderBox(context),
+                        )
+                      : _placeholderBox(context),
+                ),
                 Positioned(
                   top: topPadding,
                   left: 0,

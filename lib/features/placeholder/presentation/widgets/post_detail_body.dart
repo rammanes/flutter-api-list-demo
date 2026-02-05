@@ -28,7 +28,7 @@ class PostDetailBody extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              post.title.capitalizeFirst(),
+              post.title.toTitleCase(),
               style: theme.textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.w600,
                 color: AppColors.appBarForeground,

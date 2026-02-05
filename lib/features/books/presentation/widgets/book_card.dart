@@ -104,7 +104,9 @@ class BookCard extends StatelessWidget {
 
     if (hasCover) {
       return ClipRRect(
-        borderRadius: BorderRadius.circular(6),
+        borderRadius: const BorderRadius.vertical(
+          bottom: Radius.circular(6),
+        ),
         child: CachedNetworkImage(
           imageUrl: _coverUrl(book.coverId!),
           width: width,
@@ -125,7 +127,7 @@ class BookCard extends StatelessWidget {
       height: height,
       decoration: BoxDecoration(
         color: color.onSurface.withValues(alpha: 0.05),
-        borderRadius: BorderRadius.circular(6),
+        borderRadius: const BorderRadius.vertical(bottom: Radius.circular(6)),
       ),
       child: Icon(
         Iconsax.book_1,

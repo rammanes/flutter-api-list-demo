@@ -25,13 +25,21 @@ All while keeping the implementation focused, clean, and production-like.
 - **HTTP client**: `http` package
 - **Icons**: Iconsax (modern line icons for a polished look)
 - **Image loading** (Rick and Morty): `cached_network_image` for better performance & placeholders
+- **Local persistence**: `shared_preferences` for book search history
+- **Routing**: `go_router` for declarative navigation and nested routes
 - **Layout**: Responsive using `MediaQuery`, `LayoutBuilder`, flexible widgets, and `IndexedStack` for tab persistence
 
 **Setup & Run**
 
 1. Clone the repository:
    ```bash
-   git clonehttps://github.com/rammanes/flutter-api-list-demo.git
+   git clone https://github.com/rammanes/flutter-api-list-demo.git
    cd flutter-api-list-demo
+   ```
 
-   ## Screenshots
+2. Install dependencies and run:
+   ```bash
+   flutter pub get
+   flutter run
+   ```
+

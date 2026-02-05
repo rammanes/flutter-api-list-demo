@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:vsi_assessment/core/utils/text_format_utils.dart';
-import 'package:vsi_assessment/core/widgets/widgets.dart';
 import 'package:vsi_assessment/features/placeholder/presentation/widgets/detail_row.dart';
 import 'package:vsi_assessment/features/placeholder/presentation/widgets/meta_chip.dart';
 import 'package:vsi_assessment/styles/app_colors.dart';
@@ -25,88 +25,112 @@ class CharacterDetailBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final color = theme.colorScheme;
+    final topPadding = MediaQuery.paddingOf(context).top;
 
-    return AppScaffold(
-      appBar: CommonAppBar(
-        title: 'Character',
-        automaticallyImplyLeading: true,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: CachedNetworkImage(
-                  imageUrl: character.image,
-                  width: 140,
-                  height: 140,
-                  fit: BoxFit.cover,
-                  placeholder: (_, __) => SizedBox(
-                    width: 140,
-                    height: 140,
-                    child: Center(
-                      child: Icon(Icons.person, size: 48, color: color.onSurface.withValues(alpha: 0.3)),
-                    ),
-                  ),
-                  errorWidget: (_, __, ___) => SizedBox(
-                    width: 140,
-                    height: 140,
-                    child: Center(
-                      child: Icon(Icons.person, size: 48, color: color.onSurface.withValues(alpha: 0.3)),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              character.name.capitalizeFirst(),
-              style: theme.textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.w600,
-                color: AppColors.appBarForeground,
-              ),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-            const SizedBox(height: 12),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
+    return Scaffold(
+      body: Column(
+        children: [
+          SizedBox(
+            height: MediaQuery.sizeOf(context).height * 0.5,
+            width: double.infinity,
+            child: Stack(
+              fit: StackFit.expand,
               children: [
-                MetaChip(
-                  label: 'ID',
-                  value: '${character.id}',
-                  colorScheme: color,
+                CachedNetworkImage(
+                  imageUrl: character.image,
+                  fit: BoxFit.cover,
+                  placeholder: (_, __) => _placeholderBox(context),
+                  errorWidget: (_, __, ___) => _placeholderBox(context),
                 ),
-                _StatusChip(status: character.status, statusColor: _statusColor(context)),
-                MetaChip(
-                  label: 'Species',
-                  value: character.species,
-                  colorScheme: color,
+                Positioned(
+                  top: topPadding,
+                  left: 0,
+                  child: Material(
+                    color: Colors.transparent,
+                    child: IconButton(
+                      icon: const Icon(Icons.arrow_back_ios_new),
+                      onPressed: () => context.pop(),
+                      color: Colors.white,
+                      style: IconButton.styleFrom(
+                        backgroundColor: Colors.black26,
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),
-            if (character.type != null && character.type!.trim().isNotEmpty) ...[
-              const SizedBox(height: 20),
-              DetailRow(label: 'Type', value: character.type!),
-            ],
-            if (character.gender != null && character.gender!.trim().isNotEmpty) ...[
-              const SizedBox(height: 12),
-              DetailRow(label: 'Gender', value: character.gender!),
-            ],
-            if (character.originName != null && character.originName!.trim().isNotEmpty) ...[
-              const SizedBox(height: 12),
-              DetailRow(label: 'Origin', value: character.originName!),
-            ],
-            if (character.locationName != null && character.locationName!.trim().isNotEmpty) ...[
-              const SizedBox(height: 12),
-              DetailRow(label: 'Location', value: character.locationName!),
-            ],
-          ],
-        ),
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+              child: SizedBox(
+                width: double.infinity,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                  Text(
+                    character.name.capitalizeFirst(),
+                    style: theme.textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.appBarForeground,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 12),
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: [
+                      MetaChip(
+                        label: 'ID',
+                        value: '${character.id}',
+                        colorScheme: color,
+                      ),
+                      _StatusChip(status: character.status, statusColor: _statusColor(context)),
+                      MetaChip(
+                        label: 'Species',
+                        value: character.species,
+                        colorScheme: color,
+                      ),
+                    ],
+                  ),
+                  if (character.type != null && character.type!.trim().isNotEmpty) ...[
+                    const SizedBox(height: 20),
+                    DetailRow(label: 'Type', value: character.type!),
+                  ],
+                  if (character.gender != null && character.gender!.trim().isNotEmpty) ...[
+                    const SizedBox(height: 12),
+                    DetailRow(label: 'Gender', value: character.gender!),
+                  ],
+                  if (character.originName != null && character.originName!.trim().isNotEmpty) ...[
+                    const SizedBox(height: 12),
+                    DetailRow(label: 'Origin', value: character.originName!),
+                  ],
+                  if (character.locationName != null && character.locationName!.trim().isNotEmpty) ...[
+                    const SizedBox(height: 12),
+                    DetailRow(label: 'Location', value: character.locationName!),
+                  ],
+                ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _placeholderBox(BuildContext context) {
+    final color = Theme.of(context).colorScheme;
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      color: color.onSurface.withValues(alpha: 0.08),
+      child: Icon(
+        Icons.person,
+        size: 64,
+        color: color.onSurface.withValues(alpha: 0.5),
       ),
     );
   }

@@ -8,9 +8,11 @@ import 'package:vsi_assessment/features/characters/data/repositories/characters_
 import 'package:vsi_assessment/features/characters/presentation/characters_screen.dart';
 import 'package:vsi_assessment/features/characters/presentation/cubit/characters_cubit.dart';
 import 'package:vsi_assessment/features/main_shell.dart';
-import 'package:vsi_assessment/features/posts/data/repositories/posts_repository_impl.dart';
-import 'package:vsi_assessment/features/posts/presentation/posts_screen.dart';
-import 'package:vsi_assessment/features/posts/presentation/cubit/posts_cubit.dart';
+import 'package:vsi_assessment/features/placeholder/data/repositories/posts_repository_impl.dart';
+import 'package:vsi_assessment/features/placeholder/data/repositories/users_repository_impl.dart';
+import 'package:vsi_assessment/features/placeholder/presentation/cubit/posts_cubit.dart';
+import 'package:vsi_assessment/features/placeholder/presentation/cubit/users_cubit.dart';
+import 'package:vsi_assessment/features/placeholder/presentation/json_placeholder_screen.dart';
 import 'package:vsi_assessment/features/splash/presentation/splash_screen.dart';
 
 final GoRouter appRouter = GoRouter(
@@ -33,9 +35,18 @@ final GoRouter appRouter = GoRouter(
           routes: [
             GoRoute(
               path: '/posts',
-              builder: (context, state) => BlocProvider(
-                create: (_) => PostsCubit(PostsRepositoryImpl())..loadPosts(),
-                child: const PostsScreen(),
+              builder: (context, state) => MultiBlocProvider(
+                providers: [
+                  BlocProvider(
+                    create: (_) =>
+                        PostsCubit(PostsRepositoryImpl())..loadPosts(),
+                  ),
+                  BlocProvider(
+                    create: (_) =>
+                        UsersCubit(UsersRepositoryImpl())..loadUsers(),
+                  ),
+                ],
+                child: const JsonPlaceholderScreen(),
               ),
             ),
           ],

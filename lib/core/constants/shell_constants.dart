@@ -2,7 +2,11 @@
 class ShellConstants {
   ShellConstants._();
 
-  static const List<String> tabLabels = ['Posts', 'Books', 'Characters'];
+  static const List<String> tabLabels = [
+    'JP',
+    'Books',
+    'Characters',
+  ];
   static const List<String> appBarTitles = [
     'JSONPlaceholder',
     'Open Library',

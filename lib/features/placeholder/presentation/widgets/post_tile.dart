@@ -50,12 +50,12 @@ class PostTile extends StatelessWidget {
                   children: [
                     Text(
                       post.title.capitalizeFirst(),
-                      style: theme.textTheme.bodyLarge?.copyWith(
-                        color: AppColors.appBarForeground,
-                        fontWeight: FontWeight.w600,
-                      ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.appBarForeground,
+                      ),
                     ),
                     const SizedBox(height: 4),
                     Text(

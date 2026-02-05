@@ -1,5 +1,5 @@
-import 'package:vsi_assessment/features/posts/domain/entities/post.dart';
-import 'package:vsi_assessment/features/posts/domain/repositories/posts_repository.dart';
+import 'package:vsi_assessment/features/placeholder/domain/entities/post.dart';
+import 'package:vsi_assessment/features/placeholder/domain/repositories/posts_repository.dart';
 
 import '../datasources/post_api_service.dart';
 

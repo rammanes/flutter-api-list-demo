@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:vsi_assessment/core/widgets/widgets.dart';
 
 import 'cubit/characters_cubit.dart';
 import 'cubit/characters_state.dart';
+import 'cubit/selected_character_cubit.dart';
 import 'widgets/character_card.dart';
 
 class CharactersScreen extends StatelessWidget {
@@ -29,7 +31,10 @@ class CharactersScreen extends StatelessWidget {
                 final character = characters[index];
                 return CharacterCard(
                   character: character,
-                  onTap: () {},
+                  onTap: () {
+                    context.read<SelectedCharacterCubit>().select(character);
+                    context.push('/characters/character/${character.id}');
+                  },
                 );
               },
             );

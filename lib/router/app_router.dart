@@ -2,9 +2,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:vsi_assessment/features/books/data/repositories/books_repository_impl.dart';
+import 'package:vsi_assessment/features/books/presentation/book_detail_screen.dart';
 import 'package:vsi_assessment/features/books/presentation/books_screen.dart';
 import 'package:vsi_assessment/features/books/presentation/cubit/books_cubit.dart';
 import 'package:vsi_assessment/features/characters/data/repositories/characters_repository_impl.dart';
+import 'package:vsi_assessment/features/characters/presentation/character_detail_screen.dart';
 import 'package:vsi_assessment/features/characters/presentation/characters_screen.dart';
 import 'package:vsi_assessment/features/characters/presentation/cubit/characters_cubit.dart';
 import 'package:vsi_assessment/features/main_shell.dart';
@@ -13,6 +15,8 @@ import 'package:vsi_assessment/features/placeholder/data/repositories/users_repo
 import 'package:vsi_assessment/features/placeholder/presentation/cubit/posts_cubit.dart';
 import 'package:vsi_assessment/features/placeholder/presentation/cubit/users_cubit.dart';
 import 'package:vsi_assessment/features/placeholder/presentation/json_placeholder_screen.dart';
+import 'package:vsi_assessment/features/placeholder/presentation/post_detail_screen.dart';
+import 'package:vsi_assessment/features/placeholder/presentation/user_detail_screen.dart';
 import 'package:vsi_assessment/features/splash/presentation/splash_screen.dart';
 
 final GoRouter appRouter = GoRouter(
@@ -48,6 +52,16 @@ final GoRouter appRouter = GoRouter(
                 ],
                 child: const JsonPlaceholderScreen(),
               ),
+              routes: [
+                GoRoute(
+                  path: 'post/:id',
+                  builder: (context, state) => const PostDetailScreen(),
+                ),
+                GoRoute(
+                  path: 'user/:id',
+                  builder: (context, state) => const UserDetailScreen(),
+                ),
+              ],
             ),
           ],
         ),
@@ -59,6 +73,12 @@ final GoRouter appRouter = GoRouter(
                 create: (_) => BooksCubit(BooksRepositoryImpl()),
                 child: const BooksScreen(),
               ),
+              routes: [
+                GoRoute(
+                  path: 'book/:id',
+                  builder: (context, state) => const BookDetailScreen(),
+                ),
+              ],
             ),
           ],
         ),
@@ -71,6 +91,12 @@ final GoRouter appRouter = GoRouter(
                     CharactersCubit(CharactersRepositoryImpl())..loadCharacters(),
                 child: const CharactersScreen(),
               ),
+              routes: [
+                GoRoute(
+                  path: 'character/:id',
+                  builder: (context, state) => const CharacterDetailScreen(),
+                ),
+              ],
             ),
           ],
         ),

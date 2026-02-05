@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
+import 'cubit/selected_user_cubit.dart';
 import 'cubit/users_cubit.dart';
 import 'cubit/users_state.dart';
 import 'widgets/user_tile.dart';
@@ -25,7 +27,10 @@ class UsersScreen extends StatelessWidget {
               final user = users[index];
               return UserTile(
                 user: user,
-                onTap: () {},
+                onTap: () {
+                  context.read<SelectedUserCubit>().select(user);
+                  context.push('/posts/user/${user.id}');
+                },
               );
             },
           );

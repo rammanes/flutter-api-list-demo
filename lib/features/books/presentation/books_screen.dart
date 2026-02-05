@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:vsi_assessment/core/widgets/widgets.dart';
 
 import 'cubit/books_cubit.dart';
 import 'cubit/books_state.dart';
+import 'cubit/selected_book_cubit.dart';
 import 'widgets/book_card.dart';
 
 class BooksScreen extends StatelessWidget {
@@ -48,7 +50,12 @@ class BooksScreen extends StatelessWidget {
                       final book = books[index];
                       return BookCard(
                         book: book,
-                        onTap: () {},
+                        onTap: () {
+                          context.read<SelectedBookCubit>().select(book);
+                          context.push(
+                            '/books/book/${Uri.encodeComponent(book.key)}',
+                          );
+                        },
                       );
                     },
                   );

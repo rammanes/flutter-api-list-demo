@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import 'cubit/posts_cubit.dart';
 import 'cubit/posts_state.dart';
+import 'cubit/selected_post_cubit.dart';
 import 'widgets/post_tile.dart';
 
 /// Posts list content (used inside JSONPlaceholder tab).
@@ -26,7 +28,10 @@ class PostsScreen extends StatelessWidget {
                 final post = posts[index];
                 return PostTile(
                   post: post,
-                  onTap: () {},
+                  onTap: () {
+                    context.read<SelectedPostCubit>().select(post);
+                    context.push('/posts/post/${post.id}');
+                  },
                 );
               },
             );
